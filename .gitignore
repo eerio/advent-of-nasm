@@ -1,4 +1,5 @@
-*.in
+in.txt
+out.txt
 *.o
 *.out
 getinput.sh
