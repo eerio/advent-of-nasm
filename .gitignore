@@ -3,4 +3,5 @@ out.txt
 *.o
 *.out
 getinput.sh
-
+inc
+build
