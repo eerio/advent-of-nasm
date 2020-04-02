@@ -3,7 +3,6 @@
 files=/usr/include/asm-generic
 
 for filename in $(find $files -name '*.h'); do
-	name=${filename##*/}
-	cpp -dM $filename | sed 's/#/%/' > inc/$name
+	cpp -dM $filename | sed 's/#/%/' > inc/${filename##*/}
 done
 
