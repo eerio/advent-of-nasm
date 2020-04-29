@@ -11,25 +11,11 @@ _start:
 	js cant_open
 
 	mmap 0, TO_READ, PROT_READ, MAP_SHARED, rax, 0
-	;mov r8, rax
-	;mov rax, SYS_MMAP
-	;mov rdi, 0
-	;mov rsi, 1024
-	;mov rdx, PROT_READ
-	;mov r10, MAP_SHARED
-	;mov r9, 0
-	;syscall
-
 	test rax, rax
 	js cant_mmap
 
-	mov rsi, rax
-	mov rax, SYS_WRITE
-	mov rdi, STDOUT_FILENO
-	mov rdx, 16
-	syscall
+	puts rax, 16
 
-	puts "fine!"
 	exit EXIT_OK
 
 cant_open:
