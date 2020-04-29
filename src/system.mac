@@ -37,7 +37,7 @@
 	syscall
 %endmacro
 
-%macro writefile 2+
+%macro writestr 2+
 	jmp  %%endstr
 %%str:	db %2
 %%endstr:
@@ -48,11 +48,11 @@
 	syscall
 %endmacro
 
-%macro puts 1+
-	writefile STDOUT_FILENO, %1, 10
+%macro putstr 1+
+	writestr STDOUT_FILENO, %1, 10
 %endmacro
 
-%macro openfile 2
+%macro open 2
 	jmp %%endstr
 %%str:	db %1
 %%endstr:
