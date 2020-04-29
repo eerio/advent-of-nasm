@@ -65,13 +65,13 @@
 
 
 %macro open 2
-%ifstr %2
+%ifstr %1
 	jmp %%endstr
 %%str:	db %1
 %%endstr:
 	mov rdi, %%str
 %else
-	mov rdi, %2
+	mov rdi, %1
 %endif
 	mov rax, SYS_OPEN
 	mov rsi, %2
