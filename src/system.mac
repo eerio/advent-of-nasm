@@ -38,18 +38,23 @@
 %endmacro
 
 
-%macro write 2+
+%macro write 2-3+
 %ifstr %2
 	jmp  %%endstr
+  %if %0 = 3
+%%str:	db %2, %3
+  %else
 %%str:	db %2
+  %endif
 %%endstr:
 	mov rsi, %%str
+	mov rdx, %%endstr-%%str
 %else
 	mov rsi, %2
+	mov rdx, %3
 %endif
 	mov rax, SYS_WRITE
 	mov rdi, %1
-	mov rdx, %%endstr-%%str
 	syscall
 %endmacro
 
