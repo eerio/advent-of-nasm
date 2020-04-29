@@ -1,29 +1,29 @@
 ; syscalls
-%define OPEN 2
-%define READ 0
-%define WRITE 1
-%define EXIT 60
-
-; fs
-%define STDIN 0
-%define STDOUT 1
+%define SYS_READ 0
+%define SYS_WRITE 1
+%define SYS_OPEN 2
+%define SYS_EXIT 60
 
 ; I/O
+%define STDIN_FILENO 0
+%define STDOUT_FILENO 1
+%define STDERR_FILENO 2
 %define O_RDONLY 0
 
 ; exit codes
-%define EXIT_SUCCESS 0
+%define EXIT_OK 0
 
 ; auxiliary macros
+
 %macro writefile 2+
 	jmp  %%endstr
 %%str:	db %2
 %%endstr:
-	mov dx, %%str
-	mov cx, %%endstr-%%str
-	mov bx, %1
-	mov ah, 0x40
-	int 0x21
+	mov rax, SYS_WRITE
+	mov rdi, %1
+	mov rsi, %%str
+	mov rdx, %%endstr-%%str
+	syscall
 %endmacro
 
 
