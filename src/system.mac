@@ -30,38 +30,55 @@
 ; exit codes
 %define EXIT_OK 0
 
-
+; auxiliary macros
 %macro exit 1
 	mov rax, SYS_EXIT
 	mov rdi, %1
 	syscall
 %endmacro
 
-%macro writestr 2+
+
+%macro write 2+
+%ifstr %2
 	jmp  %%endstr
 %%str:	db %2
 %%endstr:
+	mov rsi, %%str
+%else
+	mov rsi, %2
+%endif
 	mov rax, SYS_WRITE
 	mov rdi, %1
-	mov rsi, %%str
 	mov rdx, %%endstr-%%str
 	syscall
 %endmacro
 
-%macro putstr 1+
-	writestr STDOUT_FILENO, %1, 10
+
+%macro puts 1+
+%ifstr %1
+	write STDOUT_FILENO, %1, 10
+%else
+	write STDOUT_FILENO, %1
+	write STDOUT_FILENO, 10
+%endif
 %endmacro
 
+
 %macro open 2
+%ifstr %2
 	jmp %%endstr
 %%str:	db %1
 %%endstr:
-	mov rax, SYS_OPEN
 	mov rdi, %%str
+%else
+	mov rdi, %2
+%endif
+	mov rax, SYS_OPEN
 	mov rsi, %2
 	syscall
 %endmacro
-	
+
+
 %macro mmap 6
 	mov rax, SYS_MMAP
 	mov rdi, %1
@@ -72,6 +89,7 @@
 	mov r9, %6
 	syscall
 %endmacro
+
 
 %macro munmap 2
 	mov rax, SYS_MUNMAP
