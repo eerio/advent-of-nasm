@@ -5,3 +5,5 @@ out.txt
 getinput.sh
 inc
 build
+*.in
+*.elf
